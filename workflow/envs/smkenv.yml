@@ -1,0 +1,23 @@
+name: smkenv
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.6.15
+  - snakemake
+  - tabix
+  - bcftools=1.10.2
+  - plink
+  - wget
+  - pip
+  - pip:
+    - pandas
+    - pysam == 0.17.0
+    - numpy < 1.20
+    - seaborn
+    - img2pdf
+    - numba
+    - scikit-learn
+    - build
+    - setuptools_scm

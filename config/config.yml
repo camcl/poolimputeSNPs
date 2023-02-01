@@ -1,0 +1,84 @@
+paths:
+  prophaser: 
+  data_in:
+    pnl: "/home/camille/MagicWheat/data/FOUNDERS"
+    stu: "/home/camille/MagicWheat/data/BASIC_GWAS/DATA/MAGIC_IMPUTED_PRUNED"  # download from http://mtweb.cs.ucl.ac.uk/mus/www/MAGICdiverse/MAGIC_diverse_FILES/MAGIC_PLINK_PRUNED.tar.gz
+  data_out: "/home/camille/MagicWheat/runs/devtests"
+    
+
+files:
+  .vcf.gz: 
+    pnl: "Founders.vcf.gz"
+    stu: "MAGIC_imputed.pruned.vcf.gz"  # "ALLchr.SNPs.pruned" + ".vcf.gz"
+  .coords: "55Kvariants.coords" 
+  .samples: "study.population"
+  
+
+chromosomes:
+  prefix:
+    chr1A: 1
+    chr1B: 2
+    chr1C: 3
+    chr2A: 4
+    chr2B: 5
+    chr2C: 6
+    chr3A: 7
+    chr3B: 8
+    chr3C: 9
+    chr4A: 10
+    chr4B: 11
+    chr4C: 12
+    chr5A: 13
+    chr5B: 14
+    chr5C: 15
+    chr6A: 16
+    chr6B: 17
+    chr6C: 18
+    chr7A: 19
+    chr7B: 20
+    chr7C: 21
+  fwd:
+    - 1A: 1
+    - 1B: 2
+    - 1C: 3
+    - 2A: 4
+    - 2B: 5
+    - 2C: 6
+    - 3A: 7
+    - 3B: 8
+    - 3C: 9
+    - 4A: 10
+    - 4B: 11
+    - 4C: 12
+    - 5A: 13
+    - 5B: 14
+    - 5C: 15
+    - 6A: 16
+    - 6B: 17
+    - 6C: 18
+    - 7A: 19
+    - 7B: 20
+    - 7C: 21
+  bwd:
+    1: 1A
+    2: 1B
+    3: 1C
+    4: 2A
+    5: 2B
+    6: 2C
+    7: 3A
+    8: 3B
+    9: 3C
+    10: 4A
+    11: 4B
+    12: 4C
+    13: 5A
+    14: 5B
+    15: 5C
+    16: 6A
+    17: 6B
+    18: 6C
+    19: 7A
+    20: 7B
+    21: 7C
+    
