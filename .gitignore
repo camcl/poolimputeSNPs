@@ -1,0 +1,8 @@
+envs
+opt/genotypooler/
+reports
+resources/MAGIC_PLINK_PRUNED
+resources/FOUNDER
+resources/iwgsc_refseqv1.0_recombination_rate_analysis
+resources/*.zip
+results
