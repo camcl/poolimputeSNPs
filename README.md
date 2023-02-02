@@ -99,8 +99,8 @@ done
 #     $ conda deactivate
 ```
 
-The term `(base)` indicates that conda is installed and using the default base environment.
-Activate the environment with `conda activate poolimputeSNPs/workflow/envs`. 
+The term `(base)` indicates that conda is installed and using the default base environment of conda.
+Activate the conda environment specific to the workflow with `conda activate poolimputeSNPs/workflow/envs`. 
 You should see the following in the terminal:
 
 ```
