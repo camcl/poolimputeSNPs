@@ -1,5 +1,5 @@
 envs
-opt/genotypooler/
+opt/*
 reports
 resources/MAGIC_PLINK_PRUNED
 resources/FOUNDER
