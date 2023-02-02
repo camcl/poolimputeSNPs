@@ -1,6 +1,4 @@
 envs
-/opt/**
-!/opt
 reports
 resources/MAGIC_PLINK_PRUNED
 resources/FOUNDER
