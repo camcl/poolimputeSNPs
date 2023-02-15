@@ -29,6 +29,8 @@ rule load_pnl_data:
 	params:
 		archive_dir = "resources/FOUNDERS",
 		plink_suffix = "Founders"
+	container:
+		"plink_1.90b6.21--h516909a_0.sif" # singularity pull "docker://quay.io/biocontainers/plink:1.90b6.21--h516909a_0"
 	shell:
 		"""
 		cd resources

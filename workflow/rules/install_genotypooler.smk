@@ -21,6 +21,7 @@ rule clone_repository:
 	shell:
 		"""
 		sed -i '/genotypooler:/d' config/config.yml && sed -i '/commit_hash:/d' config/config.yml
+		rm -r opt
 		mkdir opt
 		cd opt/
 		git clone https://github.com/camcl/genotypooler.git

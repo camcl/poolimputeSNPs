@@ -29,6 +29,8 @@ rule load_stu_data:
 	params:
 		archive_dir = "resources/MAGIC_PLINK_PRUNED",
 		plink_suffix = "ALLchr.SNPs.pruned"
+	container:
+		"plink_1.90b6.21--h516909a_0.sif" # singularity pull "docker://quay.io/biocontainers/plink:1.90b6.21--h516909a_0"
 	shell:
 		"""
 		cd resources

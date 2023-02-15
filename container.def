@@ -1,0 +1,17 @@
+Bootstrap: docker # https://hub.docker.com/r/mambaorg/micromamba/tags#!
+From: mambaorg/micromamba:jammy # ubuntu based
+
+%environment
+	export LANG=en_US.UTF-8
+
+%files
+     workflow/envs/smkenv.yml /env.yml
+ 
+%post
+	export DEBIAN_FRONTEND=noninteractive `#avoid freeze`
+	
+	# Configuring microconda https://mamba.readthedocs.io/en/latest/user_guide/micromamba.html
+	micromamba install -y -n base -f ./env.yml && micromamba clean --all --yes
+	
+%runscript
+	micromamba run -n base snakemake "$@"

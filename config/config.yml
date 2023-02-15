@@ -82,3 +82,6 @@ chromosomes:
     20: 7B
     21: 7C
     
+
+genotypooler:
+  commit_hash: 5a9c678

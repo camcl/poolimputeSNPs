@@ -17,12 +17,12 @@ min_version("5.3.0")
 # Load config file
 configfile: "config/config.yml"
 
+conda: "workflow/envs/smkenv.yml"
+
 # validate(config, schema="../schemas/config.schema.yaml")
 
 # Description of the workflow can be found in the final report
 #report: "report/workflow.rst"
-
-# container: "docker://continuumio/miniconda3"
 
 # =========================================================================================================
 #     Load Rules
