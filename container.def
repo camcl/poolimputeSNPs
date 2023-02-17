@@ -6,12 +6,23 @@ From: mambaorg/micromamba:jammy # ubuntu based
 
 %files
      workflow/envs/smkenv.yml /env.yml
+     makefile /makefile
+     testfile.cpp /testfile.cpp
  
 %post
 	export DEBIAN_FRONTEND=noninteractive `#avoid freeze`
 	
 	# Configuring microconda https://mamba.readthedocs.io/en/latest/user_guide/micromamba.html
 	micromamba install -y -n base -f ./env.yml && micromamba clean --all --yes
+	
+	# Install and compile prophaser: snakemake rule with this?
+	# cd opt/
+	# git clone https://github.com/scicompuu/prophaser.git
+	# cd prophaser
+	# git checkout multilevel
+	# rm makefile
+	# cp ../../makefile makefile
+	# make
 	
 %runscript
 	micromamba run -n base snakemake "$@"

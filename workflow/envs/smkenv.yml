@@ -3,13 +3,23 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
+  - cxx-compiler
+  - make
+  - cmake
+  - boost-cpp
+  - zlib
+  - libgomp
+  - eigen
+  - openmp
   - python=3.6.15
   - bioconda::snakemake
   - bioconda::tabix
   - bioconda::bcftools=1.10.2
-  - bioconda:plink
+  - bioconda::plink
+  - bioconda::libstatgen
   - wget
   - unzip
+  - git
   - pip=21.3.0
   - pip:
     - pandas
