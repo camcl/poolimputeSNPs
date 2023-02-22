@@ -7,7 +7,6 @@ From: mambaorg/micromamba:jammy # ubuntu based
 %files
      workflow/envs/smkenv.yml /env.yml
      makefile /makefile
-     testfile.cpp /testfile.cpp
  
 %post
 	export DEBIAN_FRONTEND=noninteractive `#avoid freeze`

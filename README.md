@@ -12,17 +12,82 @@ You need to install the following tools:
 
 * __Snakemake__: Please see the documentation: https://snakemake.readthedocs.io/en/stable/getting_started/installation.html
 
+* __Apptainer__ (formerly Singularity) if the workflow is to be run in the provided container: https://apptainer.org/docs/admin/main/installation.html#installation
+
 * `git`
 
-You also need a Linux-based OS for executing the workflow.
+You also need a Linux-based OS for executing the workflow in the case you do not use the provided container.
 
-## Configuration/Installation
+## Installation and configuration
 
 Clone the repository `git clone https://github.com/camcl/poolimputeSNPs.git` and navigate to the directory:
 
 ```
-cd poolimputeSNPs
+$ cd poolimputeSNPs
 ```
+
+Edit the configuration file depending on whether the imputation step of the workflow should be executed or not.
+By default, no imputation is triggered after simulating.
+Three options for imputation are available:
+
+* `'beagle'`
+
+* `'prophaser'`
+
+* `None` (default)
+
+__Warning:__ due to the memory requirements of the program, `'prophaser'` must be run only in a cluster environment.
+
+
+## Usage with a container (recommended, even necessary if running on a cluster)
+
+Why is it recommended? Avoid creating the conda environment and having a different OS.
+
+
+### Verify the installation of Apptainer
+
+If the installation is correct, the command `apptainer --version` should print out `apptainer version X.Y.Z` depending on the last release.
+
+
+### Build the container image
+
+The image of the container (ca. 740 MB) in which the workflow is run must be built from the `container.def` file:
+
+```
+$ apptainer build container.sif container.def
+```
+
+The building operation can take up to a few minutes, during which the conda packages are installed first, followed by the Python packages via pip.
+If the build is succesful, the end of the output looks like
+
+```
+Cleaning tarballs..
+Cleaning packages..
+INFO:    Adding environment to container
+INFO:    Adding runscript
+INFO:    /etc/singularity/ exists; cleanup by system administrator is not complete (see https://apptainer.org/docs/admin/latest/singularity_migration.html)
+INFO:    Creating SIF file...
+INFO:    Build complete: container.sif
+```
+
+### Execute the workflow
+
+For dry-running the workflow in the container image with 4 cores , enter the command `apptainer run container.sif -c 4 -n`.
+A dry-run displays what rules of the workflow will be executed and the reason triggering this execution, however nothing is actually run and no files are written.
+
+If the dry-run does not produce any error, the executing the workflow can be actually run in the container image with the command `apptainer run container.sif -c 4` (4 cores are used for the run).
+
+
+### Inspect the results
+
+TODO: What in what folder?
+
+
+
+
+## Usage without a container
+
+**Important:** Keep in mind that installing the conda environment on a machine requires a large amount of memory (ca. 2.2 GB).
 
 ### Initialize and activate the main conda environment for the project
 

@@ -50,6 +50,7 @@ rule chunk_chromosomes:
 	
 rule pool_chromosomes:
 	"""Apply pooling simulation to the per-chromosome marker data in the study population."""
+	# TODO: nb_cores as hyperparameter (nb_threads?)
 	input: 
 		"results/data/{nchrom}/tmp",
 		"resources/adaptive_gls.csv"
