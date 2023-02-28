@@ -11,8 +11,9 @@ dependencies:
   - libgomp
   - eigen
   - openmp
+  - slurm-pipeline
   - python=3.6.15
-  - bioconda::snakemake
+  - bioconda::snakemake>5.3.0
   - bioconda::tabix
   - bioconda::bcftools=1.10.2
   - bioconda::plink

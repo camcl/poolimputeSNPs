@@ -1,3 +1,5 @@
+imputation: "prophaser"
+
 paths:
   prophaser: 
   data_in:
@@ -81,7 +83,14 @@ chromosomes:
     19: 7A
     20: 7B
     21: 7C
-    
 
-genotypooler:
-  commit_hash: 5a9c678
+
+
+
+
+
+
+
+commit_hash_genotypooler: 8d206bd
+
+commit_hash_prophaser: 7088929

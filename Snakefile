@@ -34,6 +34,7 @@ include: "workflow/rules/prepare_pnl_data.smk"
 include: "workflow/rules/eda.smk"
 include: "workflow/rules/pool_chromosomes.smk"
 include: "workflow/rules/genetic_maps.smk"
+include: "workflow/rules/imputation_prophaser.smk"
 
 # =========================================================================================================
 #     The `onstart` Checker
@@ -66,21 +67,37 @@ rule all:
         "results/jobgraph.png"
         
 
-rule generate_workflow_graphs:
-	"""
-	Generate a rulegraph for the entire workflow.
-	"""
-	input:
-		# expand("results/data/{nchrom}/STU.Chr{nchrom}.SNPs.pruned.sorted.pooled.{ext}", nchrom=list(config["chromosomes"]["prefix"].values()), ext=["vcf.gz", "vcf.gz.csi"])
-		expand("results/data/{nchrom}/{nchrom}_interpolated_wheat_map", nchrom=list(config["chromosomes"]["prefix"].values())) # output from genetic_maps.smk
-	output:
-		rulegraph = "results/rulegraph.png",
-		jobgraph = "results/jobgraph.png"
-	shell:
+if config['imputation'] == 'none':
+	rule generate_workflow_graphs:
 		"""
-		snakemake --rulegraph | dot -Tpng > {output.rulegraph}
-		snakemake --dag | dot -Tpng > {output.jobgraph}
+		Generate a rulegraph for the entire workflow.
 		"""
+		input:
+			expand("results/data/{nchrom}/{nchrom}_interpolated_wheat_map", nchrom=list(config["chromosomes"]["prefix"].values())) # output from genetic_maps.smk
+		output:
+			rulegraph = "results/rulegraph.png",
+			jobgraph = "results/jobgraph.png"
+		shell:
+			"""
+			snakemake --rulegraph | dot -Tpng > {output.rulegraph}
+			snakemake --dag | dot -Tpng > {output.jobgraph}
+			"""
+			
+elif config['imputation'] == 'prophaser':
+	rule generate_workflow_graphs:
+		"""
+		Generate a rulegraph for the entire workflow.
+		"""
+		input:
+			"results/data/1/prophaser"
+		output:
+			rulegraph = "results/rulegraph.png",
+			jobgraph = "results/jobgraph.png"
+		shell:
+			"""
+			snakemake --rulegraph | dot -Tpng > {output.rulegraph}
+			snakemake --dag | dot -Tpng > {output.jobgraph}
+			"""
 
 # =========================================================================================================
 #     Success and Failure Messages
