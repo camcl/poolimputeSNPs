@@ -15,9 +15,9 @@ rule load_mapping_data:
 	The map was created based on the RefSeq v1.0 genome assembly by IWGSC,
 	which is the assembly that was used for aligning the reads in the NIAB Diverse MAGIC wheat population. 
 	"""
-	input:
-		expand("results/data/{nchrom}/STU.Chr{nchrom}.SNPs.pruned.sorted.pooled.vcf.gz", nchrom=list(config["chromosomes"]["prefix"].values())),
-		expand("results/data/{nchrom}/STU.Chr{nchrom}.SNPs.pruned.sorted.pooled.vcf.gz.csi", nchrom=list(config["chromosomes"]["prefix"].values()))
+	input:		
+		eda_pnl_figs = expand("results/plots/{nchrom}/PNL/genotypes_hexa_scaled_proportions.pdf", nchrom=list(config["chromosomes"]["prefix"].values())), 
+		eda_stu_figs = expand("results/plots/{nchrom}/STU/genotypes_hexa_scaled_proportions.pdf", nchrom=list(config["chromosomes"]["prefix"].values())) 
 	output:
 		directory("resources/iwgsc_refseqv1.0_recombination_rate_analysis")
 	log:
