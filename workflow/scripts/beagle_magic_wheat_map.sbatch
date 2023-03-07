@@ -5,6 +5,7 @@
 #SBATCH -C mem128GB
 #SBATCH -n 16
 #SBATCH -t 03:00:00
-#SBATCH -J poolimputeSNPs
+#SBATCH -J beagle_magic_wheat
 
-sbatch workflow/scripts/beagle_magic_wheat_map.sh
+module load bioinfo-tools && module load bcftools/1.10
+bash workflow/scripts/beagle_magic_wheat_map.sh
