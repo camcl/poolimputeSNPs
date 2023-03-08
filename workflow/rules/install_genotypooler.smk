@@ -3,8 +3,6 @@ import yaml
 from snakemake.utils import min_version
 min_version("5.3.0")
 
-# TODO: write commit to the config file
-
 
 # =========================================================================================================
 #     Clone repository from GitHub, checkout branch, retrieve commit, and fill in the config file with these infos
@@ -20,7 +18,7 @@ rule clone_repository:
 		"results/logs/install_genotypooler/clone_repository.log"
 	shell:
 		"""
-		sed -i '/genotypooler:/d' config/config.yml && sed -i '/commit_hash:/d' config/config.yml
+		sed -i '/commit_hash_genotypooler:/d' config/config.yml
 		rm -r opt
 		mkdir opt
 		cd opt/
@@ -32,8 +30,7 @@ rule clone_repository:
 		echo "commit hash genotypooler: " > ../../{log}
 		echo "  $hash_commit" >> ../../{log}
 		echo "" >> ../../config/config.yml
-		echo "genotypooler:" >> ../../config/config.yml
-		echo "  commit_hash: $hash_commit" >> ../../config/config.yml
+		echo "commit_hash_genotypooler: $hash_commit" >> ../../config/config.yml
 		cd ../..
 		"""
 	

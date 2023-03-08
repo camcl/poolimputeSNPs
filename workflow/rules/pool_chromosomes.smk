@@ -6,6 +6,38 @@ sys.path.insert(0, rootdir)
 from snakemake.utils import min_version
 min_version("5.3.0")
 
+# =========================================================================================================
+#     Remove markers with swapped alleles
+# =========================================================================================================
+
+rule remove_swaps:
+	"""
+	Remove marker positions where the alternate allele is swapped between
+	the reference and the study populations.
+	```
+	"""
+	input:
+		"results/data/{nchrom}/PNL.Chr{nchrom}.SNPs.pruned.sorted.vcf.gz",
+		"results/data/{nchrom}/STU.Chr{nchrom}.SNPs.pruned.sorted.vcf.gz",
+		"opt/genotypooler/genotypooler/runtools/rm_swapped_ref_alt.py"
+		
+	output:
+		"results/data/{nchrom}/unfiltered-opposite-markers/swapped_chrom_pos.coords"
+		
+	params:
+		path_to_script = "opt/genotypooler/genotypooler/runtools",
+		cwd = os.getcwd()
+		
+	log:
+		os.path.join(os.getcwd(),  "results/logs/remove_swaps/{nchrom}.log")  # python outputs
+		
+	shell:
+		"""
+		cd {params.path_to_script}
+		python3 -u rm_swapped_ref_alt.py {params.cwd}/results/data/{wildcards.nchrom} {params.cwd}/results/data/{wildcards.nchrom} PNL.Chr{wildcards.nchrom}.SNPs.pruned.sorted.vcf.gz STU.Chr{wildcards.nchrom}.SNPs.pruned.sorted.vcf.gz > {log}
+		cd {params.cwd}
+		"""
+
 
 # =========================================================================================================
 #     Chunk chromosomes into subfiles of 1000 markers
@@ -15,9 +47,8 @@ rule chunk_chromosomes:
 	"""Pack the study population data for each chromosome into chunks of consecutive markers."""
 	# TODO: add verif overall nb markers per chunk sum up to tot nb markers on chromosome
 	# TODO: chunk_size to config
-	input: # output from EDA
-		eda_pnl_figs = "results/plots/{nchrom}/PNL/genotypes_hexa_scaled_proportions.pdf", 
-		eda_stu_figs = "results/plots/{nchrom}/STU/genotypes_hexa_scaled_proportions.pdf" 
+	input:
+		"results/data/{nchrom}/unfiltered-opposite-markers/swapped_chrom_pos.coords"
 	output:
 		directory("results/data/{nchrom}/tmp")
 	params:
