@@ -3,9 +3,8 @@ opt
 reports
 .snakemake
 resources/MAGIC_PLINK_PRUNED
-resources/FOUNDER
+resources/FOUNDERS
 resources/iwgsc_refseqv1.0_recombination_rate_analysis
 resources/*.zip
 results
 container.sif
-workflow/scripts/run_workflow.sbatch
