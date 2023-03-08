@@ -13,15 +13,7 @@ From: mambaorg/micromamba:jammy # ubuntu based
 	
 	# Configuring microconda https://mamba.readthedocs.io/en/latest/user_guide/micromamba.html
 	micromamba install -y -n base -f ./env.yml && micromamba clean --all --yes
-	
-	# Install and compile prophaser: snakemake rule with this?
-	# cd opt/
-	# git clone https://github.com/scicompuu/prophaser.git
-	# cd prophaser
-	# git checkout multilevel
-	# rm makefile
-	# cp ../../makefile makefile
-	# make
-	
+
 %runscript
+	bash workflow/scripts/set_SlurmUser.sh
 	micromamba run -n base snakemake "$@"

@@ -34,19 +34,19 @@ Three options for imputation are available:
 
 * `'prophaser'`
 
-* `None` (default)
+* `none` (default)
 
 __Warning:__ due to the memory requirements of the program, `'prophaser'` must be run only in a cluster environment.
 
 
 ## Usage with a container (recommended, even necessary if running on a cluster)
 
-Why is it recommended? Avoid creating the conda environment and having a different OS.
+Avoid creating the (very large) conda environment.
 
 
 ### Verify the installation of Apptainer
 
-If the installation is correct, the command `apptainer --version` should print out `apptainer version X.Y.Z` depending on the last release.
+If the installation is correct, the command `apptainer --version` should print out `apptainer version X.Y.Z` depending on the latest release.
 
 
 ### Build the container image
@@ -77,6 +77,19 @@ A dry-run displays what rules of the workflow will be executed and the reason tr
 
 If the dry-run does not produce any error, the executing the workflow can be actually run in the container image with the command `apptainer run container.sif -c 4` (4 cores are used for the run).
 
+### Notes about running 'prophaser' imputation in the workflow
+
+The script files provided as examples are specific to the compute cluster 'Rackham' at [UPPMAX](https://www.uppmax.uu.se) which is managed with SLURM.
+You may adapt the following scripts for making them compatible with your remote computing environment:
+
+* *set_SlurmUser.sh*: adapt the locations of:
+	* the configuration file for SLURM,
+	* the relevant libraries,
+	* the executable for `sbatch`
+	* More examples and documentation at [GWDG wiki](https://info.gwdg.de/wiki/doku.php?id=wiki:hpc:usage_of_slurm_within_a_singularity_container)
+
+* *run_workflow.sbatch*, *run_workflow_prophaser.sbatch*: adapt the `#SBATCH` flags.
+
 
 ### Inspect the results
 
@@ -87,7 +100,7 @@ TODO: What in what folder?
 
 ## Usage without a container
 
-**Important:** Keep in mind that installing the conda environment on a machine requires a large amount of memory (ca. 2.2 GB).
+**Important:** Keep in mind that installing the conda environment on a machine requires a large amount of space in memory (ca. 2.2 GB).
 
 ### Initialize and activate the main conda environment for the project
 
@@ -257,7 +270,7 @@ snakemake -c 4
 	* `resources/iwgsc_refseqv1.0_recombination_rate_analysis` and the corresponding zip-archive
 The results may very slightly differ due to the randomization when selecting the individuals that form the study population.
 
-## Generate a report for the worflow
+## Generate a report for the workflow
 
 Run
 
