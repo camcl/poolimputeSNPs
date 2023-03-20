@@ -28,9 +28,7 @@ $ cd poolimputeSNPs
 
 Edit the configuration file depending on whether the imputation step of the workflow should be executed or not.
 By default, no imputation is triggered after simulating.
-Three options for imputation are available:
-
-* `'beagle'`
+Two options for imputation are available:
 
 * `'prophaser'`
 
@@ -38,6 +36,7 @@ Three options for imputation are available:
 
 __Warning:__ due to the memory requirements of the program, `'prophaser'` must be run only in a cluster environment.
 
+NB: An example of imputation with Beagle 4.1. is provided in the repository of `genotypooler`.
 
 ## Usage with a container (recommended, even necessary if running on a cluster)
 
@@ -79,8 +78,9 @@ If the dry-run does not produce any error, the executing the workflow can be act
 
 ### Notes about running 'prophaser' imputation in the workflow
 
-The script files provided as examples are specific to the compute cluster 'Rackham' at [UPPMAX](https://www.uppmax.uu.se) which is managed with SLURM.
-You may adapt the following scripts for making them compatible with your remote computing environment:
+The script files provided as examples are specific to the compute cluster 'Snowy' at [UPPMAX](https://www.uppmax.uu.se) which is managed with SLURM.
+prophaser was executed for each sample on 1 node (16 cores).
+You may adapt the following scripts (in `workflow/scripts`) for making them compatible with your remote computing environment:
 
 * *set_SlurmUser.sh*: adapt the locations of:
 	* the configuration file for SLURM,
@@ -89,6 +89,10 @@ You may adapt the following scripts for making them compatible with your remote 
 	* More examples and documentation at [GWDG wiki](https://info.gwdg.de/wiki/doku.php?id=wiki:hpc:usage_of_slurm_within_a_singularity_container)
 
 * *run_workflow.sbatch*, *run_workflow_prophaser.sbatch*: adapt the `#SBATCH` flags.
+
+* *run_workflow.sh*: adapt the option `-c 16` accordingly to the number of available CPU on your system and in your sbatch commands. Also adapt the paths to be bind in the container at running.
+
+* *merge_sort_vcf_files.sh*: replace the line `module load bioinfo-tools && module load bcftools/1.9` with the appropriate instructions for making _bcftools_ available on the cluster you use.
 
 
 ### Inspect the results

@@ -20,7 +20,7 @@ do
 done
 
 bcftools merge -Oz -o $outdir/$outfile $files
-bcftools view -S $samplesId -Oz -o tmp.sorted.vcf.gz $outfile
+bcftools view -S $samplesId --force-samples -Oz -o tmp.sorted.vcf.gz $outfile
 bcftools view -Oz -o $infile tmp.sorted.vcf.gz
-bcftools index $outdir/$outfile
+bcftools index -f $outdir/$outfile
 rm tmp.sorted.vcf.gz 
