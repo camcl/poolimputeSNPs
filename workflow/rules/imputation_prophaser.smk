@@ -36,18 +36,4 @@ rule clone_compile_prophaser:
 		cd ../..
 		"""
 		
-rule run_prophaser:
-	"""Imputation with prophaser for chromosome 1A only."""
-	input:
-		"opt/prophaser/main.o"
-	output:
-		directory("results/data/1/prophaser")
-	shell:
-		"""
-		cd workflow/scripts
-		sbatch --array=1 run_workflow_prophaser.sbatch
-		"""
-
-# sbatch --array=1-496 run_workflow_prophaser.sbatch
-		
 	

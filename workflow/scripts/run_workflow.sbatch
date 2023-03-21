@@ -1,10 +1,9 @@
 #!/bin/bash -l
 #SBATCH -A snic2022-22-697
 #SBATCH -M snowy
-#SBATCH -p node
-#SBATCH -C mem128GB
-#SBATCH -n 16
-#SBATCH -t 00:30:00
+#SBATCH -p core
+#SBATCH -n 2
+#SBATCH -t 00:10:00
 #SBATCH -J poolimputeSNPs
 
 # Location: poolimputeSNPs/

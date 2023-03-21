@@ -84,11 +84,29 @@ rule sort_vars_pnl:
 	input:
 		PNL_FILE
 	output:
+		temp("results/data/tmp.PNL.SNPs.pruned.sorted.vcf.gz"),
+		temp("results/data/tmp.PNL.SNPs.pruned.sorted.vcf.gz.csi")
+	shell:
+		"""
+		bcftools sort -Oz -o {output[0]} {input}
+		bcftools index -f {output[0]}
+		"""
+
+# =========================================================================================================
+#     Force phasing
+# =========================================================================================================
+
+rule force_phase_pnl:
+	"""
+	Force GT phasing (necessary if imputation with prophaser).
+	"""
+	input:
+		"results/data/tmp.PNL.SNPs.pruned.sorted.vcf.gz"
+	output:
 		"results/data/PNL.SNPs.pruned.sorted.vcf.gz"
 	shell:
 		"""
-		bcftools sort -Oz -o {output} {input}
-		bcftools index -f {output}
+		bash workflow/scripts/ugt_to_phased_gt.sh {input} {output}
 		"""
 
 # =========================================================================================================

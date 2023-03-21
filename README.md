@@ -16,17 +16,19 @@ You need to install the following tools:
 
 * `git`
 
-You also need a Linux-based OS for executing the workflow in the case you do not use the provided container.
+You also need a Linux-based OS for executing the workflow.
 
 ## Installation and configuration
 
 Clone the repository `git clone https://github.com/camcl/poolimputeSNPs.git` and navigate to the directory:
 
 ```
-$ cd poolimputeSNPs
+cd poolimputeSNPs
 ```
 
-Edit the configuration file depending on whether the imputation step of the workflow should be executed or not.
+Unless differently specified, all paths and commands are relative to the directory `poolimputeSNPs`.
+
+Edit the configuration file `config/config.yml` depending on whether the imputation step of the workflow should be executed or not.
 By default, no imputation is triggered after simulating.
 Two options for imputation are available:
 
@@ -53,7 +55,7 @@ If the installation is correct, the command `apptainer --version` should print o
 The image of the container (ca. 740 MB) in which the workflow is run must be built from the `container.def` file:
 
 ```
-$ apptainer build container.sif container.def
+apptainer build container.sif container.def
 ```
 
 The building operation can take up to a few minutes, during which the conda packages are installed first, followed by the Python packages via pip.
@@ -69,12 +71,85 @@ INFO:    Creating SIF file...
 INFO:    Build complete: container.sif
 ```
 
-### Execute the workflow
+### Execute the workflow locally
+
+Reminder: the configuration must be `imputation: 'none'`.
 
 For dry-running the workflow in the container image with 4 cores , enter the command `apptainer run container.sif -c 4 -n`.
 A dry-run displays what rules of the workflow will be executed and the reason triggering this execution, however nothing is actually run and no files are written.
 
 If the dry-run does not produce any error, the executing the workflow can be actually run in the container image with the command `apptainer run container.sif -c 4` (4 cores are used for the run).
+
+
+### Execute the workflow on a compute cluster (via SLURM system)
+
+Run `sbatch run_workflow.sbatch`.
+
+First lines of the output (it might be written to a specific SLURM ouput file) with the configuration `imputation: 'prophaser'`:
+
+```
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 16
+Rules claiming more threads will be scaled down.
+Singularity containers: ignored
+Job stats:
+job                             count    min threads    max threads
+----------------------------  -------  -------------  -------------
+all                                 1              1              1
+chunk_chromosomes                  21              1              1
+clone_compile_prophaser             1              1              1
+clone_repository                    1              1              1
+generate_workflow_graphs            1              1              1
+get_coords_vars_stu                 1              1              1
+get_marker_id_pos                  21              1              1
+interpolate_chrom_map              21              1              1
+intersect_coords_samples_pnl        1              1              1
+intersect_coords_samples_stu        1              1              1
+load_mapping_data                   1              1              1
+load_pnl_data                       1              1              1
+load_stu_data                       1              1              1
+plot_histograms                    21              1              1
+pool_chromosomes                   21              1              1
+remove_swaps                       21              1              1
+run_prophaser                       1              1              1
+sort_vars_pnl                       1              1              1
+sort_vars_stu                       1              1              1
+split_chrom_pnl                    21              1              1
+split_chrom_stu                    21              1              1
+split_map_by_chromosome            21              1              1
+total                             202              1              1
+
+Select jobs to execute...
+
+[Mon Mar 20 17:22:24 2023]
+rule clone_repository:
+    output: opt/genotypooler/genotypooler, opt/genotypooler/genotypooler/runtools/rm_swapped_ref_alt.py
+    log: results/logs/install_genotypooler/clone_repository.log
+    jobid: 17
+    resources: tmpdir=/scratch/7430565
+
+Cloning into 'genotypooler'...
+Switched to a new branch 'magicwheat-dev'
+...
+```
+
+Upon successful execution, the last lines of the output should  look like:
+
+```
+[Mon Mar 20 17:25:31 2023]
+localrule all:
+    input: results/rulegraph.png, results/jobgraph.png
+    jobid: 0
+    resources: tmpdir=/scratch/7430565
+
+[Mon Mar 20 17:25:31 2023]
+Finished job 0.
+202 of 202 steps (100%) done
+Complete log: /crex/proj/snic2019-8-216/private/MagicWheatWorkflow/poolimputeSNPs/.snakemake/log/2023-03-20T172219.551989.snakemake.log
+Success! The Snakemake workflow is completed.
+```
+
 
 ### Notes about running 'prophaser' imputation in the workflow
 
@@ -282,7 +357,17 @@ Run
 mkdir reports && snakemake --report reports/report.html
 ```
 
-and open the HTML file created in a web browser.
+Output:
+
+```
+Building DAG of jobs...
+Creating report...
+Loading script code for rule interpolate_chrom_map
+Downloading resources and rendering HTML.
+Report created: reports/report.html.
+```
+
+Open the HTML file created in a web browser.
 
 
 ## References

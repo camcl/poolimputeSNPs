@@ -19,6 +19,7 @@ dependencies:
   - bioconda::libstatgen
   - wget
   - unzip
+  - sed
   - git
   - pip=21.3.0
   - pip:
