@@ -4,7 +4,7 @@
 
 The workflow uses as example the data from the [**NIAB Diverse MAGIC wheat population**](http://mtweb.cs.ucl.ac.uk/mus/www/MAGICdiverse/).
 
-![Rule graph of the workflow](~/MagicWheat/results/chrom1-uppmax/rulegraph.png)
+![Rule graph of the workflow](rulegraph.png)
 
 ## Requirements
 
