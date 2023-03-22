@@ -4,6 +4,10 @@
 
 The workflow uses as example the data from the [**NIAB Diverse MAGIC wheat population**](http://mtweb.cs.ucl.ac.uk/mus/www/MAGICdiverse/).
 
+Rule graph of the the workflow:
+
+![Rule graph of the workflow](results/rulegraph.png)
+
 ## Requirements
 
 You need to install the following tools:
@@ -100,6 +104,7 @@ all                                 1              1              1
 chunk_chromosomes                  21              1              1
 clone_compile_prophaser             1              1              1
 clone_repository                    1              1              1
+force_phase_pnl                     1              1              1
 generate_workflow_graphs            1              1              1
 get_coords_vars_stu                 1              1              1
 get_marker_id_pos                  21              1              1
@@ -118,7 +123,7 @@ sort_vars_stu                       1              1              1
 split_chrom_pnl                    21              1              1
 split_chrom_stu                    21              1              1
 split_map_by_chromosome            21              1              1
-total                             202              1              1
+total                             203              1              1
 
 Select jobs to execute...
 
@@ -145,10 +150,20 @@ localrule all:
 
 [Mon Mar 20 17:25:31 2023]
 Finished job 0.
-202 of 202 steps (100%) done
+203 of 203 steps (100%) done
 Complete log: /crex/proj/snic2019-8-216/private/MagicWheatWorkflow/poolimputeSNPs/.snakemake/log/2023-03-20T172219.551989.snakemake.log
 Success! The Snakemake workflow is completed.
 ```
+
+### Post processing of the imputed files
+
+If you have run prophaser, the imputed sample files must be merged and reorder with
+
+```
+apptainer exec container.sif micromamba run -n base bash workflow/scripts/merge_sort_vcf_files.sh results/data/1/prophaser *.full.postgenos.vcf.gz results/data/study.population results/data/1
+```
+
+This should create a file `results/data/1/STU.Chr1.SNPs.pruned.sorted.pooled.imputed.vcf.gz`and its CSI index that you can process with bcftools.
 
 
 ### Notes about running 'prophaser' imputation in the workflow
@@ -166,15 +181,6 @@ You may adapt the following scripts (in `workflow/scripts`) for making them comp
 * *run_workflow.sbatch*, *run_workflow_prophaser.sbatch*: adapt the `#SBATCH` flags.
 
 * *run_workflow.sh*: adapt the option `-c 16` accordingly to the number of available CPU on your system and in your sbatch commands. Also adapt the paths to be bind in the container at running.
-
-* *merge_sort_vcf_files.sh*: replace the line `module load bioinfo-tools && module load bcftools/1.9` with the appropriate instructions for making _bcftools_ available on the cluster you use.
-
-
-### Inspect the results
-
-TODO: What in what folder?
-
-
 
 
 ## Usage without a container
@@ -342,12 +348,18 @@ snakemake -c 4
 
 * If you want to re-run the workflow within the same project directory, delete the following directories beforehand:
 	* `results`
-	* `opt/genotypooler`
+	* `opt`
 	* `reports`
 	* `resources/MAGIC_PLINK_PRUNED` and the corresponding zip-archive
 	* `resources/FOUNDERS` and the corresponding zip-archive
 	* `resources/iwgsc_refseqv1.0_recombination_rate_analysis` and the corresponding zip-archive
 The results may very slightly differ due to the randomization when selecting the individuals that form the study population.
+
+
+## Inspect the results
+
+TODO: What in what folder?
+
 
 ## Generate a report for the workflow
 
