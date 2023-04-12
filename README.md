@@ -178,7 +178,7 @@ You may adapt the following scripts (in `workflow/scripts`) for making them comp
 
 * *run_workflow.sbatch*, *run_workflow_prophaser.sbatch*: adapt the `#SBATCH` flags.
 
-* *run_workflow.sh*: adapt the option `-c 16` accordingly to the number of available CPU on your system and in your sbatch commands. Also adapt the paths to be bind in the container at running.
+* *run_workflow.sh*: adapt the option `-c 16` accordingly to the number of available CPU on your system and in your sbatch commands. Also adapt the paths to be bound in the container at running.
 
 
 ## Usage without a container
@@ -358,7 +358,53 @@ The results may very slightly differ due to the randomization when selecting the
 
 ## Inspect the results
 
-TODO: What in what folder?
+If the workflow is executed successfully, the repository is structured as follows:
+
+```
+.
+├── config
+│   └── config.yml
+├── container.def
+├── container.sif
+├── makefile
+├── opt
+│   ├── genotypooler
+│   └── prophaser
+├── README.md
+├── report.html
+├── resources
+│   ├── adaptive_gls.csv
+│   ├── FOUNDERS
+│   ├── FOUNDERS.tar.gz
+│   ├── iwgsc_refseqv1.0_recombination_rate_analysis
+│   ├── iwgsc_refseqv1.0_recombination_rate_analysis.zip
+│   ├── iwgsc_refseqv1.0_recombination_rate_analysis.zip.md5.txt
+│   ├── MAGIC_PLINK_PRUNED
+│   └── MAGIC_PLINK_PRUNED.tar.gz
+├── results
+│   ├── data
+│   ├── jobgraph.png
+│   ├── logs
+│   ├── plots
+│   └── rulegraph.png
+├── rulegraph.png
+├── Snakefile
+└── workflow
+    ├── envs
+    ├── rules
+    └── scripts
+
+```
+
+The directory `results` contains:
+
+* DAG of the rules and the jobs in the workflow (`.png` files). 
+
+* The subdirectory `plots` with histograms of the distribution of the allelic frequency and the genotypes in both the reference panel (`PNL`) and the study population (`STU`) for each chromosome.
+
+* The subdirectory `logs` with printouts for the rules and jobs executed.
+
+* The subdirectory `data` where the VCF files and the (interpolated) genetic maps are saved for each chromosome. If imputation with prophaser is executed, the directory of the chromosome 1 contains the imputed files in `data/1/prophaser`.
 
 
 ## Generate a report for the workflow
