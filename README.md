@@ -40,11 +40,11 @@ Two options for imputation are available:
 
 __Warning:__ due to the memory requirements of the program, `'prophaser'` must be run only in a cluster environment.
 
-NB: An example of imputation with Beagle 4.1. is provided in the repository of `genotypooler`.
+NB: An example of script for running imputation with Beagle 4.1..along with a genetic map in the required plink format are provided in the repository of `genotypooler` (branch _magicwheat_).
 
 ## Usage with a container (recommended, even necessary if running on a cluster)
 
-Avoid creating the (very large) conda environment.
+Avoid creating the (very large-sized) conda environment.
 
 
 ### Verify the installation of Apptainer
@@ -133,7 +133,7 @@ rule clone_repository:
     resources: tmpdir=/scratch/7430565
 
 Cloning into 'genotypooler'...
-Switched to a new branch 'magicwheat-dev'
+Switched to a new branch 'magicwheat'
 ...
 ```
 
@@ -312,7 +312,9 @@ job                             count    min threads    max threads
 ----------------------------  -------  -------------  -------------
 all                                 1              1              1
 chunk_chromosomes                  21              1              1
+clone_compile_prophaser             1              1              1
 clone_repository                    1              1              1
+force_phase_pnl                     1              1              1
 generate_workflow_graphs            1              1              1
 get_coords_vars_stu                 1              1              1
 get_marker_id_pos                  21              1              1
@@ -330,7 +332,7 @@ sort_vars_stu                       1              1              1
 split_chrom_pnl                    21              1              1
 split_chrom_stu                    21              1              1
 split_map_by_chromosome            21              1              1
-total                             200              1              1
+total                             202              1              1
 
 Some jobs were triggered by provenance information, see 'reason' section in the rule displays above.
 If you prefer that only modification time is used to determine whether a job shall be executed, use the command line option '--rerun-triggers mtime' (also see --help).

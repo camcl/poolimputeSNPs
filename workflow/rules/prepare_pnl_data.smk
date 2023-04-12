@@ -6,9 +6,7 @@ min_version("5.3.0")
 Preparation of the data set used as reference panel.
 """
 
-# TODO: PNL_FILE to config
-
-PNL_FILE = "results/data/PNL.SNPs.pruned.vcf.gz"
+PNL_FILE = os.path.join(config["paths"]["data_out"], config["files"][".vcf.gz"]["pnl"])  # "results/data/PNL.SNPs.pruned.vcf.gz"
 
 # =========================================================================================================
 #     Download data for the founders from UCL server
@@ -29,8 +27,6 @@ rule load_pnl_data:
 	params:
 		archive_dir = "resources/FOUNDERS",
 		plink_suffix = "Founders"
-	container:
-		"plink_1.90b6.21--h516909a_0.sif" # singularity pull "docker://quay.io/biocontainers/plink:1.90b6.21--h516909a_0"
 	shell:
 		"""
 		cd resources
@@ -51,7 +47,7 @@ rule load_pnl_data:
 rule intersect_coords_samples_pnl: 
 	"""extract coordinates of the pruned set of markers from the inbred lines file (pruned.nomiss)"""
 	input:
-		coords_vars = os.path.join("results", "data", config["files"][".coords"]), # input makes sure the file exists
+		coords_vars = os.path.join(config["paths"]["data_out"], config["files"][".coords"]), # input makes sure the file exists
 		plink_gz = "resources/FOUNDERS/Founders.vcf.gz" 
 	output:
 		PNL_FILE

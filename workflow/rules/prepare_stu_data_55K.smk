@@ -8,7 +8,7 @@ Preparation of the data set for the study population.
 
 # TODO: STU_FILE to config
 
-STU_FILE = "results/data/STU.SNPs.pruned.vcf.gz"
+STU_FILE = os.path.join(config["paths"]["data_out"], config["files"][".vcf.gz"]["stu"])  # "results/data/STU.SNPs.pruned.vcf.gz"
 
 # =========================================================================================================
 #     Download the data for the inbred lines used as study population from the UCL server

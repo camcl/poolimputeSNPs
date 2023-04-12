@@ -46,13 +46,12 @@ rule remove_swaps:
 rule chunk_chromosomes: 
 	"""Pack the study population data for each chromosome into chunks of consecutive markers."""
 	# TODO: add verif overall nb markers per chunk sum up to tot nb markers on chromosome
-	# TODO: chunk_size to config
 	input:
 		"results/data/{nchrom}/unfiltered-opposite-markers/swapped_chrom_pos.coords"
 	output:
 		directory("results/data/{nchrom}/tmp")
 	params:
-		chunk_size = 1000
+		chunk_size = config["pooling"]["chunksize"]  # 1000
 	log:
 		os.path.join(os.getcwd(), "results/logs/chunk_chromosomes/{nchrom}.log")
 	shell:
@@ -91,7 +90,7 @@ rule pool_chromosomes:
 	params:
 		genotypooler = 'opt/genotypooler/genotypooler',
 		cwd = os.getcwd(),
-		nb_cores = 4
+		nb_cores = config["pooling"]["nbcores"]  # 4
 	log:
 		os.path.join(os.getcwd(), "results/logs/pool_chromosomes/{nchrom}.log")
 	shell: 

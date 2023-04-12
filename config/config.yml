@@ -1,19 +1,23 @@
-imputation: "prophaser"
+imputation: "none"
 
 paths:
   data_in:
     pnl: "/."
     stu: "/."
-  data_out: "./"
+  data_out: "results/data"
     
 
 files:
   .vcf.gz: 
-    pnl: "Founders.vcf.gz"
-    stu: "MAGIC_imputed.pruned.vcf.gz"  # "ALLchr.SNPs.pruned" + ".vcf.gz"
+    pnl: "PNL.SNPs.pruned.vcf.gz"  # "Founders.vcf.gz"
+    stu: "STU.SNPs.pruned.vcf.gz"  # "MAGIC_imputed.pruned.vcf.gz"
   .coords: "55Kvariants.coords" 
   .samples: "study.population"
   
+pooling:
+  chunksize: 1000
+  nbcores: 4
+  studypopsize: 496
 
 chromosomes:
   prefix:
@@ -85,9 +89,3 @@ chromosomes:
     19: 7A
     20: 7B
     21: 7C
-
-
-
-commit_hash_genotypooler: f599006
-
-commit_hash_prophaser: 7088929

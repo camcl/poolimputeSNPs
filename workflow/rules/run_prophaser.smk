@@ -19,7 +19,7 @@ rule run_prophaser:
 	output:
 		directory("results/data/1/prophaser")
 	params:
-		studypop_size = 496  # TODO: config parameter
+		studypop_size = config["pooling"]["studypopsize"]  # 496  
 	shell:
 		"""
 		mkdir results/logs/run_prophaser

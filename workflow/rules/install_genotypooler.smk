@@ -24,7 +24,7 @@ rule clone_repository:
 		cd opt/
 		git clone https://github.com/camcl/genotypooler.git
 		cd genotypooler 
-		git checkout magicwheat-dev
+		git checkout magicwheat
 		pip install -r requirements.txt
 		hash_commit=$(git rev-parse --short HEAD)
 		echo "commit hash genotypooler: " > ../../{log}
