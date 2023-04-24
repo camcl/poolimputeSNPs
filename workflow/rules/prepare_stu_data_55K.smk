@@ -83,7 +83,7 @@ rule intersect_coords_samples_stu:
     	"results/logs/intersect_coords_samples/STU_FILE.log"
     shell:
         """
-        bcftools query -l {params.archive_dir}/{params.plink_suffix}.vcf.gz | shuf | head -496 > {params.samples_file}
+        bcftools query -l {params.archive_dir}/{params.plink_suffix}.vcf.gz | shuf --random-source=<(yes 2023) | head -496 > {params.samples_file}
         bcftools view -R {input} -S {params.samples_file} -Oz -o {output} {params.archive_dir}/{params.plink_suffix}.vcf.gz
 		bcftools index -f {output} 
 		echo "Check dimensions of the data set {output} and the data fields." > {log}
