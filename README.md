@@ -9,10 +9,9 @@ The workflow uses as example the data from the [**NIAB Diverse MAGIC wheat popul
 ## Table of contents
 
 1. [Requirements](#requirements)
-2. [Installation and configuration](#install-config)
-3. [Usage with a container (recommended, even necessary if running on a cluster)](#usage-container)
-3.1. [Verify the installation of Apptainer](#verif-apptainer)
-4. [Usage without container (for local execution)](#usage-no-container)
+2. [Installation and configuration](#installation-and-configuration)
+3. [Usage with a container](#usage-with-a-container)
+4. [Usage without container](#usage-without-container)
 
 ## Requirements
 
@@ -50,8 +49,9 @@ __Warning:__ due to the memory requirements of the program, `'prophaser'` must b
 
 NB: An example of script for running imputation with Beagle 4.1..along with a genetic map in the required plink format are provided in the repository of `genotypooler` (branch _magicwheat_).
 
-## Usage with a container (recommended, even necessary if running on a cluster)
+## Usage with a container
 
+** Recommended usage, even necessary if running on a cluster.**
 Using the provided container avoids creating the (very large-sized) conda environment.
 
 
@@ -190,7 +190,9 @@ You may adapt the following scripts (in `workflow/scripts`) for making them comp
 * *run_workflow.sh*: adapt the option `-c 16` accordingly to the number of available CPU on your system and in your sbatch commands. Also adapt the paths to be bound in the container at running.
 
 
-## Usage without container (for local execution)
+## Usage without container 
+
+For local execution.
 
 **Important:** Keep in mind that installing the conda environment on a machine requires a large amount of space in memory (ca. 2.2 GB).
 
