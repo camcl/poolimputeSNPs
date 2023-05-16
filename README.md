@@ -14,7 +14,7 @@ The workflow uses as example the data from the [**NIAB Diverse MAGIC wheat popul
 4. [Usage without container](#usage-without-container)
 5. [Inspect the results](#inspect-the-results)
 6. [Generate a report for the workflow](#generate-a-report-for-the-workflow)
-7. [New runs the workflow](#new-runs-of-the-workflow)
+7. [New runs of the workflow](#new-runs-of-the-workflow)
 8. [References](#references)
 
 ## Requirements
