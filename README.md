@@ -6,6 +6,14 @@ The workflow uses as example the data from the [**NIAB Diverse MAGIC wheat popul
 
 ![Rule graph of the workflow](rulegraph.png)
 
+## Table of contents
+
+1. [Requirements](#requirements)
+2. [Installation and configuration](#install-config)
+3. [Usage with a container (recommended, even necessary if running on a cluster)](#usage-container)
+3.1. [Verify the installation of Apptainer](#verif-apptainer)
+4. [Usage without container (for local execution)](#usage-no-container)
+
 ## Requirements
 
 You need to install the following tools:
