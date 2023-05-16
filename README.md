@@ -44,23 +44,24 @@ NB: An example of script for running imputation with Beagle 4.1..along with a ge
 
 ## Usage with a container (recommended, even necessary if running on a cluster)
 
-Avoid creating the (very large-sized) conda environment.
+Using the provided container avoids creating the (very large-sized) conda environment.
 
 
 ### Verify the installation of Apptainer
 
-If the installation is correct, the command `apptainer --version` should print out `apptainer version X.Y.Z` depending on the latest release.
+If the installation is correct, the command `apptainer --version` should print out `apptainer version X.Y.Z`, depending on the latest release.
 
 
 ### Build the container image
 
-The image of the container (ca. 740 MB) in which the workflow is run must be built from the `container.def` file:
+The image of the container (ca. 850 MB) in which the workflow is run must be built from the `container.def` file:
 
 ```
 apptainer build container.sif container.def
 ```
 
 The building operation can take up to a few minutes, during which the conda packages are installed first, followed by the Python packages via pip.
+On a (HPC) cluster, the option `--fakeroot` will be used by default when building and later when executing or running programs in the container.
 If the build is succesful, the end of the output looks like
 
 ```
@@ -80,12 +81,12 @@ Reminder: the configuration must be `imputation: 'none'`.
 For dry-running the workflow in the container image with 4 cores , enter the command `apptainer run container.sif -c 4 -n`.
 A dry-run displays what rules of the workflow will be executed and the reason triggering this execution, however nothing is actually run and no files are written.
 
-If the dry-run does not produce any error, the executing the workflow can be actually run in the container image with the command `apptainer run container.sif -c 4` (4 cores are used for the run).
+If the dry-run does not produce any error, the workflow can be actually run in the container image with the command `apptainer run container.sif -c 4` (4 cores are used for the run).
 
 
 ### Execute the workflow on a compute cluster (via SLURM system)
 
-Run `sbatch run_workflow.sbatch`.
+Run `sbatch workflow/scripts/run_workflow.sbatch`.
 
 First lines of the output (it might be written to a specific SLURM ouput file) with the configuration `imputation: 'prophaser'`:
 
@@ -155,7 +156,7 @@ Success! The Snakemake workflow is completed.
 
 ### Post processing of the imputed files
 
-If you have run prophaser, the imputed sample files must be merged and reorder with
+If you have run prophaser, the imputed sample files must be merged and reordered with
 
 ```
 apptainer exec container.sif micromamba run -n base bash workflow/scripts/merge_sort_vcf_files.sh results/data/1/prophaser *.full.postgenos.vcf.gz results/data/study.population results/data/1
@@ -167,7 +168,7 @@ This should create a file `results/data/1/STU.Chr1.SNPs.pruned.sorted.pooled.imp
 ### Notes about running 'prophaser' imputation in the workflow
 
 The script files provided as examples are specific to the compute cluster 'Snowy' at [UPPMAX](https://www.uppmax.uu.se) which is managed with SLURM.
-prophaser was executed for each sample on 1 node (16 cores).
+prophaser was executed for each sample on 1 node (16 cores). The execution time of the workflow might be longer if fewer and/or smaller cores are used.
 You may adapt the following scripts (in `workflow/scripts`) for making them compatible with your remote computing environment:
 
 * *set_SlurmUser.sh*: adapt the locations of:
@@ -181,11 +182,13 @@ You may adapt the following scripts (in `workflow/scripts`) for making them comp
 * *run_workflow.sh*: adapt the option `-c 16` accordingly to the number of available CPU on your system and in your sbatch commands. Also adapt the paths to be bound in the container at running.
 
 
-## Usage without a container
+## Usage without container (for local execution)
 
 **Important:** Keep in mind that installing the conda environment on a machine requires a large amount of space in memory (ca. 2.2 GB).
 
 ### Initialize and activate the main conda environment for the project
+
+Clone the repository `poolimputeSNPs`, do not change the configuration file (e.g. `imputation` remains `'none'`).
 
 Run the following command: `conda env create -f workflow/envs/smkenv.yml --prefix ./envs python=3.6`, it might take a while.
 The output should look like:
@@ -278,7 +281,7 @@ Python 3.6.15
 
 For more infos about managing the conda environments, see the [documentation](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#)
 
-## Usage
+### Execution of the workflow in the conda environment
 
 Run the workflow:
 
@@ -346,17 +349,8 @@ This was a dry-run (flag -n). The order of jobs does not reflect the order of ex
 snakemake -c 4
 ```
 
-* If you want to re-run the workflow within the same project directory, delete the following directories beforehand:
-	* `results`
-	* `opt`
-	* `reports`
-	* `resources/MAGIC_PLINK_PRUNED` and the corresponding zip-archive
-	* `resources/FOUNDERS` and the corresponding zip-archive
-	* `resources/iwgsc_refseqv1.0_recombination_rate_analysis` and the corresponding zip-archive
-The results may very slightly differ due to the randomization when selecting the individuals that form the study population.
 
-
-## Inspect the results
+## Inspect the results (after containerized execution including imputation)
 
 If the workflow is executed successfully, the repository is structured as follows:
 
@@ -426,6 +420,19 @@ Report created: reports/report.html.
 ```
 
 Open the HTML file created in a web browser.
+
+
+## New runs of the workflow
+
+If you want to re-run the workflow within the same project directory, delete the following directories beforehand:
+	* `results`
+	* `opt`
+	* `reports`
+	* `resources/MAGIC_PLINK_PRUNED` and the corresponding zip-archive
+	* `resources/FOUNDERS` and the corresponding zip-archive
+	* `resources/iwgsc_refseqv1.0_recombination_rate_analysis` and the corresponding zip-archive
+	* `.snakemake` (for avoiding locking conflicts)
+The results may very slightly differ due to the randomization when selecting the individuals that form the study population.
 
 
 ## References
