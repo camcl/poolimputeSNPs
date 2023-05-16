@@ -12,6 +12,10 @@ The workflow uses as example the data from the [**NIAB Diverse MAGIC wheat popul
 2. [Installation and configuration](#installation-and-configuration)
 3. [Usage with a container](#usage-with-a-container)
 4. [Usage without container](#usage-without-container)
+5. [Inspect the results](#inspect-the-results)
+6. [Generate a report for the workflow](#generate-a-report-for-the-workflow)
+7. [New runs the workflow](#new-runs-of-the-workflow)
+8. [References](#references)
 
 ## Requirements
 
@@ -360,9 +364,9 @@ snakemake -c 4
 ```
 
 
-## Inspect the results (after containerized execution including imputation)
+## Inspect the results
 
-If the workflow is executed successfully, the repository is structured as follows:
+If the workflow is executed successfully (containerized execution including imputation), the repository is structured as follows:
 
 ```
 .
