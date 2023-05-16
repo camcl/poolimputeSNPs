@@ -426,19 +426,19 @@ Open the HTML file created in a web browser.
 
 If you want to re-run the workflow within the same project directory, delete the following directories beforehand:
 
-	* `results`
+* `results`
 
-	* `opt`
+* `opt`
 
-	* `reports`
+* `reports`
 
-	* `resources/MAGIC_PLINK_PRUNED` and the corresponding zip-archive
+* `resources/MAGIC_PLINK_PRUNED` and the corresponding zip-archive
 
-	* `resources/FOUNDERS` and the corresponding zip-archive
+* `resources/FOUNDERS` and the corresponding zip-archive
 
-	* `resources/iwgsc_refseqv1.0_recombination_rate_analysis` and the corresponding zip-archive
+* `resources/iwgsc_refseqv1.0_recombination_rate_analysis` and the corresponding zip-archive
 
-	* `.snakemake` (for avoiding locking conflicts)
+* `.snakemake` (for avoiding locking conflicts)
 
 The results may very slightly differ due to the randomization when selecting the individuals that form the study population.
 
