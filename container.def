@@ -3,6 +3,7 @@ From: mambaorg/micromamba:jammy # ubuntu based
 
 %environment
 	export LANG=en_US.UTF-8
+	export PATH="${MAMBA_ROOT_PREFIX}/bin:$PATH"
 
 %files
      workflow/envs/smkenv.yml /env.yml
@@ -24,4 +25,8 @@ From: mambaorg/micromamba:jammy # ubuntu based
 	# make
 	
 %runscript
-	micromamba run -n base snakemake "$@"
+	#!/bin/bash
+	# bash workflow/scripts/set_SlurmUser.sh
+	
+	# Activate base environment
+	source /usr/local/bin/_activate_current_env.sh
